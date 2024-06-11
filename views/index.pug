@@ -1,0 +1,49 @@
+extends layout
+
+block content
+  article.slds-card
+    .slds-card__header.slds-grid
+      header.slds-media.slds-media_center.slds-has-flexi-truncate
+        .slds-media__figure
+          span.slds-icon_container.slds-icon-standard-contact(title="contact")
+            svg.slds-icon.slds-icon_small(aria-hidden="true")
+              use(xlink:href="/custom-activity/icons/standard-sprite/svg/symbols.svg#contact")
+            span.slds-assistive-text contact
+        .slds-media__body
+          h2.slds-card__header-title
+            a.slds-card__header-link.slds-truncate(href="javascript:void(0);" title="Card Header")
+              span= title
+    .slds-card__body.slds-card__body_inner
+      form.js-settings-form
+        .slds-form-element
+        label.slds-form-element__label(for="StatusAgendamento") Status Agendamento
+          .slds-form-element__control
+            .slds-select_container
+              select#StatusAgendamento.slds-select.js-activity-setting(name='StatusAgendamento')
+                each dropdownOption in dropdownOptions
+                  option(value=dropdownOption.value)= dropdownOption.name
+          label.slds-form-element__label(for="idAgendamento") Campo com Id do Agendamento
+          .slds-form-element__control
+            .slds-select_container
+              select#idAgendamento.slds-select.js-activity-setting(name='idAgendamento')
+          label.slds-form-element__label(for="confirmacaoText") Campo para atualizar a confirmação (texto)
+          .slds-form-element__control
+            .slds-select_container
+              select#confirmacaoText.slds-select.js-activity-setting(name='confirmacaoText')
+          label.slds-form-element__label(for="confirmacaoBoolean") Campo para atualizar a confirmação (Boolean)
+          .slds-form-element__control
+            .slds-select_container
+              select#confirmacaoBoolean.slds-select.js-activity-setting(name='confirmacaoBoolean')
+          label.slds-form-element__label(for="status") Campo para salvar status
+          .slds-form-element__control
+            .slds-select_container
+              select#status.slds-select.js-activity-setting(name='status')
+          label.slds-form-element__label(for="saveDate") Campo para salvar data de confirmação
+          .slds-form-element__control
+            .slds-select_container
+              select#saveDate.slds-select.js-activity-setting(name='saveDate')
+          input#dataExtensionID.slds-select.js-activity-setting(type='hidden' name='dataExtensionID')
+          input#dataExtensionKeyFields.slds-select.js-activity-setting(type='hidden' name='dataExtensionKeyFields')
+          input#dataExtensionKeyFieldsValues.slds-select.js-activity-setting(type='hidden' name='dataExtensionKeyFieldsValues')
+
+    footer.slds-card__footer

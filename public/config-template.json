@@ -1,0 +1,64 @@
+{
+  "workflowApiVersion": "1.1",
+  "key":"13708c14-9795-4f96-8a6c-61546af9fbd2",
+  "metaData": {
+    "icon": "images/icon.png"
+  },
+  "type": "REST",
+  "lang": {
+    "en-US": {
+      "description": "Custom Activity"
+    }
+  },
+  "arguments": {
+    "execute": {
+      "url": "https://$DOMAIN/journey/execute",
+      "verb": "POST",
+      "body": "",
+      "header": "",
+      "format": "json",
+      "useJwt": true,
+      "timeout": 100000,
+      "retryCount": 5
+    }
+  },
+  "configurationArguments": {
+    "applicationExtensionKey": "13708c14-9795-4f96-8a6c-61546af9fbd2",
+    "save": {
+      "url": "https://$DOMAIN/journey/save",
+      "verb": "POST",
+      "useJwt": true
+    },
+    "publish": {
+      "url": "https://$DOMAIN/journey/publish",
+      "verb": "POST",
+      "useJwt": true
+    },
+    "unpublish": {
+      "url": "https://$DOMAIN/journey/unpublish",
+      "verb": "POST",
+      "useJwt": true
+    },
+    "stop": {
+      "url": "https://$DOMAIN/journey/stop",
+      "verb": "POST",
+      "useJwt": true
+    },
+    "validate": {
+      "url": "https://$DOMAIN/journey/validate",
+      "verb": "POST",
+      "useJwt": true
+    },
+    "TestSave": {
+      "url": "https://$DOMAIN/journey/testsave",
+      "verb": "POST",
+      "useJwt": true
+    }
+  },
+  "userInterfaces": {
+    "configInspector": {
+      "hideHeader": true,
+      "size": "scm-sm"
+    }
+  }
+}

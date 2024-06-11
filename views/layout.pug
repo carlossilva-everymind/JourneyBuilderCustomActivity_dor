@@ -1,0 +1,30 @@
+doctype html
+html
+  head
+    meta(http-equiv="Content-Security-Policy", content="default-src 'self' www-mc-s11.exacttargetapis.com")
+    title= title
+    script.
+      console.log("validando variaveis");
+      const sfmc_subdomain = !{JSON.stringify(sfmc_subdomain)};
+      console.log('sfmc_subdomain:', sfmc_subdomain);
+
+      const sfmc_account_id = !{JSON.stringify(sfmc_account_id)};
+      console.log("sfmc_account_id", sfmc_account_id)
+
+      const sfmc_client_id = !{JSON.stringify(sfmc_client_id)};
+      console.log("sfmc_client_id", sfmc_client_id)
+
+      const sfmc_client_secret = !{JSON.stringify(sfmc_client_secret)};
+      console.log("sfmc_client_secret", sfmc_client_secret)
+
+      const sfmc_jwt = !{JSON.stringify(sfmc_jwt)};
+      console.log("JWT", sfmc_jwt)
+
+    link(type="text/css",rel="stylesheet", href="/custom-activity/styles/salesforce-lightning-design-system.min.css")
+    link(type="text/css",rel="stylesheet", href="/custom-activity/styles/custom.css")
+    script(type="application/javascript", src="/custom-activity/javascript/libs/jquery.min.js")
+    script(type="application/javascript", src="/custom-activity/javascript/libs/jquery.validate.min.js")
+    script(type="application/javascript", src="/custom-activity/javascript/libs/postmonger.js")
+    script(type="application/javascript", src="/custom-activity/javascript/customActivity.js")
+  body
+    block content

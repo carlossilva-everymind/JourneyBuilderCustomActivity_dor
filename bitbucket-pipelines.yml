@@ -1,0 +1,52 @@
+definitions:
+  steps:
+    - step: &StartingPipeline
+        name: 'Starting the pipeline'
+        image: node:lts-alpine
+        script:
+          - echo "This step only exists because bitbucket dont accept configure first step as manual"
+    - step: &BuildDocker
+        name: Build Docker Image
+        image: amazon/aws-cli
+        services:
+          - docker
+        script:
+          - docker login -u ${DOCKER_REGISTRY_USERNAME:-AWS} -p ${DOCKER_REGISTRY_PASSWORD:-$(aws ecr get-login-password)} $DOCKER_REGISTRY
+          - docker build -t $DOCKER_REGISTRY/$K8S_APP_NAME:$BITBUCKET_BUILD_NUMBER .
+          - docker tag $DOCKER_REGISTRY/$K8S_APP_NAME:$BITBUCKET_BUILD_NUMBER $DOCKER_REGISTRY/$K8S_APP_NAME:$BITBUCKET_BUILD_NUMBER
+          - docker push $DOCKER_REGISTRY/$K8S_APP_NAME:$BITBUCKET_BUILD_NUMBER
+    - step: &DeployArtifactsK8s
+        name: Deploy artifacts to Kubernetes
+        image: public.ecr.aws/s0r6e7e3/pipeline-container:helm3.8.2
+        script:
+           - git clone https://$HELM_BASE_TOKEN@bitbucket.org/rededorinovacaocorp/helm-base.git ./plataforma/templates
+           - sh ./plataforma/templates/util/deploy.sh $K8S_CLUSTER_NAME $K8S_APP_NAME $NODE_ENV
+pipelines:
+  branches:
+    '{feature/*,develop*}':
+      - step: *StartingPipeline
+      - step:
+          <<: *BuildDocker
+          trigger: manual
+      - step:
+          <<: *DeployArtifactsK8s
+          name: Deploy Development
+          deployment: Development
+    '{release/*}':
+      - step: *StartingPipeline
+      - step:
+          <<: *BuildDocker
+          trigger: manual
+      - step:
+          <<: *DeployArtifactsK8s
+          name: Deploy Staging
+          deployment: Staging
+    main:
+      - step: *StartingPipeline
+      - step:
+          <<: *BuildDocker
+          trigger: manual
+      - step:
+          <<: *DeployArtifactsK8s
+          name: Deploy Production
+          deployment: Production

@@ -1,0 +1,66 @@
+replicaCount: 1
+
+namespace: salesforce
+
+k8s_app_name: ${K8S_APP_NAME}
+
+image:
+  repository: $DOCKER_REGISTRY/$K8S_APP_NAME
+  containerPort: 8090
+  tag: $BITBUCKET_BUILD_NUMBER
+
+service:
+  - name: backend
+    port: 80
+    targetPort: 8090
+    protocol: TCP
+
+resources:
+  limits:
+    cpu: 150m
+    memory: 256Mi
+  requests:
+    cpu: 100m
+    memory: 128Mi
+
+autoscaling:
+  enabled: true
+  minReplicas: 1
+  maxReplicas: 1
+  targetCPUUtilizationPercentage: 70
+  targetMemoryUtilizationPercentage: 70
+
+ingress:
+  enabled: false
+  number: 80
+  alb:
+    enabled: true
+    class: alb
+    protocol: HTTP
+    listenPorts: '[{"HTTP": 80}, {"HTTPS": 443}]'
+    scheme: internal
+    ssl: 443
+  path: /*
+  pathType: ImplementationSpecific
+  annotations:
+
+nodeSelector: {}
+
+tolerations: []
+
+affinity: {}
+
+configmap:
+  NODE_ENV: ${NODE_ENV}
+  STACK: ${STACK}
+  SFMC_SUBDOMAIN: ${SFMC_SUBDOMAIN}
+  SFMC_CLIENT_SECRET: ${SFMC_CLIENT_SECRET}
+  SFMC_CLIENT_ID: ${SFMC_CLIENT_ID}
+  SFMC_ACCOUNT_ID: ${SFMC_ACCOUNT_ID}
+  JWT: ${JWT}
+  DATA_EXTENSION_EXTERNAL_KEY: ${DATA_EXTENSION_EXTERNAL_KEY}
+  MOTION_AGENDAMENTO_URL: ${MOTION_AGENDAMENTO_URL}
+  MOTION_CLIENT_ID: ${MOTION_CLIENT_ID}
+  MOTION_CLIENT_SECRET: ${MOTION_CLIENT_SECRET}
+  MOTION_TOKEN_URL: ${MOTION_TOKEN_URL}
+  DOMAIN: ${DOMAIN}
