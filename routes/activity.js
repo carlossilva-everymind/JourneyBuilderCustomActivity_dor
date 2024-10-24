@@ -35,7 +35,7 @@ exports.execute = async (req, res) => {
     dataExtensionKeyFields,
     dataExtensionKeyFieldsValues } = data.inArguments[0];
 
-  let sfmcToken;
+  let sfmcToken; 
 
   const arrDataExtensionKeyFields = dataExtensionKeyFields.split(';');
   const arrDataExtensionKeyFieldsValues = dataExtensionKeyFieldsValues.split(';');
