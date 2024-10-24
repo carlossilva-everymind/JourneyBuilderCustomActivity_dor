@@ -35,7 +35,7 @@ exports.execute = async (req, res) => {
     dataExtensionKeyFields,
     dataExtensionKeyFieldsValues } = data.inArguments[0];
 
-  let sfmcToken;
+  let sfmcToken; 
 
   const arrDataExtensionKeyFields = dataExtensionKeyFields.split(';');
   const arrDataExtensionKeyFieldsValues = dataExtensionKeyFieldsValues.split(';');
@@ -154,10 +154,11 @@ exports.execute = async (req, res) => {
     ]
     await SFClient.saveData(process.env.SFMC_ERROR_DE_EXTERNAL_KEY, errorPostBody).then(response => {
       if (response.res.statusCode >= 400) {
-         logger.error(`Error adding to error DE request body: ${JSON.stringify(errorPostBody)}`)
-         logger.error(`Error adding to error DE response: ${JSON.stringify(response.body)}`)
+        logger.error(`Error adding to error DE request body: ${JSON.stringify(errorPostBody)}`)
+        logger.error(`Error adding to error DE response: ${JSON.stringify(response.body)}`)
       }
     });
+  }
   */
 
     res.status(200).send({
@@ -207,8 +208,6 @@ exports.unpublish = (req, res) => {
  * @param res
  */
 exports.validate = async (req, res) => {
-  logger = new InfoLogger('activity.js');
-  logger.log.info(`Endpoint teste`);
   res.status(200).send({
     success: true,
   });

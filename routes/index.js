@@ -42,6 +42,5 @@ exports.ui = (req, res) => {
     sfmc_client_id: process.env.SFMC_CLIENT_ID,
     sfmc_client_secret: process.env.SFMC_CLIENT_SECRET,
     sfmc_jwt: process.env.JWT,
-    domain: process.env.DOMAIN,
   });
 };
