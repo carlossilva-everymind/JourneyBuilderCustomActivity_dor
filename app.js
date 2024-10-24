@@ -16,7 +16,7 @@ const app = express();
 app.use(
   helmet({
     contentSecurityPolicy: {
-      directives: {
+      directives: { 
         'default-src': ["'self'", 'www-mc-s11.exacttargetapis.com'],
         'script-src': ["'self'", 'www-mc-s11.exacttargetapis.com', "'unsafe-inline'"],
         'frame-ancestors': ["'self'", `https://mc.${process.env.STACK}.exacttarget.com`, `https://jbinteractions.${process.env.STACK}.marketingcloudapps.com`],
