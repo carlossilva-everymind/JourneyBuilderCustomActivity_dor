@@ -1,9 +1,7 @@
 doctype html
 html
   head
-    //- meta(http-equiv="Content-Security-Policy" content="default-src 'self' www-mc-s11.exacttargetapis.com; script-src 'self' www-mc-s11.exacttargetapis.com 'unsafe-inline';")
-    meta(http-equiv="Content-Security-Policy" content="default-src 'self' www-mc-s11.exacttargetapis.com;")
-
+    meta(http-equiv="Content-Security-Policy" content="default-src 'self' www-mc-s11.exacttargetapis.com; script-src 'self' www-mc-s11.exacttargetapis.com 'unsafe-inline';")
     title= title
     script.
       console.log("validando variaveis");
@@ -11,16 +9,19 @@ html
       console.log('sfmc_subdomain:', sfmc_subdomain);
 
       const sfmc_account_id = !{JSON.stringify(sfmc_account_id)};
-      console.log("sfmc_account_id", sfmc_account_id)
+      console.log("sfmc_account_id:", sfmc_account_id)
 
       const sfmc_client_id = !{JSON.stringify(sfmc_client_id)};
-      console.log("sfmc_client_id", sfmc_client_id)
+      console.log("sfmc_client_id:", sfmc_client_id)
 
       const sfmc_client_secret = !{JSON.stringify(sfmc_client_secret)};
-      console.log("sfmc_client_secret", sfmc_client_secret)
+      console.log("sfmc_client_secret:", sfmc_client_secret)
 
       const sfmc_jwt = !{JSON.stringify(sfmc_jwt)};
-      console.log("JWT", sfmc_jwt)
+      console.log("JWT:", sfmc_jwt)
+
+      const domain = !{JSON.stringify(domain)};
+      console.log("domain:", domain)
 
     link(rel='stylesheet', href='/styles/salesforce-lightning-design-system.min.css')
     link(rel='stylesheet', href='/styles/custom.css')
@@ -33,6 +34,6 @@ html
     //- script(type="application/javascript", src="/custom-activity/javascript/libs/jquery.min.js")
     //- script(type="application/javascript", src="/custom-activity/javascript/libs/jquery.validate.min.js")
     //- script(type="application/javascript", src="/custom-activity/javascript/libs/postmonger.js")
-    //- script(type="application/javascript", src="/custom-activity/javascript/customActivity.js")
+    //- script(type="application/javascript", src="/custom-activity/javascript/customActivity.js")    
   body
     block content
