@@ -121,6 +121,7 @@ exports.execute = async (req, res) => {
         },
       ];
       await SFClient.saveData(DEExternalKey, body).then(response => {
+        console.log("Insert in ")
         if (response.res.statusCode >= 400) { // erro no envio dos dados para DE
           logger.error(`Error adding to error DE response: ${JSON.stringify(response.body)}`)
           logger.error(`Error adding to error DE request body: ${JSON.stringify(body)}`)
@@ -160,7 +161,7 @@ exports.execute = async (req, res) => {
           values: {
             [confirmacaoText]: StatusAgendamento,
             [confirmacaoBoolean]: true,
-            [status]: 'SUCESSO',
+            [status]: 'ERRO',
             [saveDate]: now.format('YYYY-MM-DD HH:mm:ss')
           },
         },
