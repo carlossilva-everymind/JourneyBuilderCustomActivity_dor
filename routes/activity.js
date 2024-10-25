@@ -1,9 +1,11 @@
 const { v1: Uuidv1 } = require('uuid');
 const JWT = require('../utils/jwtDecoder');
 const SFClient = require('../utils/sfmc-client');
-const logger = require('../utils/logger');
+// const logger = require('../utils/logger');
 const axios = require('axios');
 const moment = require('moment-timezone');
+const InfoLogger = require("../utils/infoLogger");
+
 
 /*
   Arquivo de configuração das rotas do backend da atividade customizada
@@ -17,12 +19,14 @@ const moment = require('moment-timezone');
  */
 exports.execute = async (req, res) => {
   // decode data
+  logger = new InfoLogger('activity.js');
+  logger.log.info(`Request body`, req.body);
   const data = JWT(req.body);
-  console.log('Execute - Dados decodificados: ', data)
-  logger.info(data);
+  // console.log('Execute - Dados decodificados: ', data)
+  // logger.info(data);
 
   const dataReceived = JSON.stringify(data, null, 0);
-  console.log('dataReceived', dataReceived);
+  // console.log('dataReceived', dataReceived);
 
   const {
     idAgendamento,
@@ -35,7 +39,7 @@ exports.execute = async (req, res) => {
     dataExtensionKeyFields,
     dataExtensionKeyFieldsValues } = data.inArguments[0];
 
-  let sfmcToken; 
+  let sfmcToken;
 
   const arrDataExtensionKeyFields = dataExtensionKeyFields.split(';');
   const arrDataExtensionKeyFieldsValues = dataExtensionKeyFieldsValues.split(';');
@@ -118,7 +122,7 @@ exports.execute = async (req, res) => {
       status: 'ok',
     });
   } catch (error) {
-    logger.error(error);
+    // logger.error(error);
     console.log('Error: ', error);
 
     // atualiza dados na DE
@@ -133,12 +137,12 @@ exports.execute = async (req, res) => {
       },
     ]).then(response => {
       if (response.res.statusCode >= 400) {
-        logger.error(`Error Updating Status to entry DE: ${JSON.stringify(response.body)}`);
+        // logger.error(`Error Updating Status to entry DE: ${JSON.stringify(response.body)}`);
         // throw `Error Updating Status to entry DE: ${JSON.stringify(response.body)}`
       }
     });
 
-    /*
+
     const id = Uuidv1();
     let errorPostBody = [
       {
@@ -158,8 +162,7 @@ exports.execute = async (req, res) => {
         logger.error(`Error adding to error DE response: ${JSON.stringify(response.body)}`)
       }
     });
-  }
-  */
+
 
     res.status(200).send({
       status: 'ok',
@@ -208,6 +211,8 @@ exports.unpublish = (req, res) => {
  * @param res
  */
 exports.validate = async (req, res) => {
+  logger = new InfoLogger('activity.js');
+  logger.log.info(`Endpoint teste`);
   res.status(200).send({
     success: true,
   });

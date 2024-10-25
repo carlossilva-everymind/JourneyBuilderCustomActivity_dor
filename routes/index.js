@@ -8,6 +8,9 @@ const fs = require('fs');
  */
 exports.config = (req, res) => {
   const domain = process.env.DOMAIN + '/custom-activity';
+  
+  // const domain = 'salesforce-custom-activity.dev-k8s.rededorlabs.com';
+
   const file = path.join(__dirname, '..', 'public', 'config-template.json');
 
   const configTemplate = fs.readFileSync(file, 'utf-8');
@@ -42,5 +45,6 @@ exports.ui = (req, res) => {
     sfmc_client_id: process.env.SFMC_CLIENT_ID,
     sfmc_client_secret: process.env.SFMC_CLIENT_SECRET,
     sfmc_jwt: process.env.JWT,
+    domain: process.env.DOMAIN,
   });
 };
