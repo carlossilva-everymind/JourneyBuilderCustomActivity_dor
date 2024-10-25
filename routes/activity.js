@@ -107,6 +107,7 @@ exports.execute = async (req, res) => {
     //     }
     //   });
 
+    // Envia dados para a DE conigurada no painel
     if (DEExternalKey != '') {
       let body = [
         {
@@ -120,13 +121,13 @@ exports.execute = async (req, res) => {
         },
       ];
       await SFClient.saveData(DEExternalKey, body).then(response => {
-        if (response.res.statusCode >= 400) {
+        if (response.res.statusCode >= 400) { // erro no envio dos dados para DE
           logger.error(`Error adding to error DE response: ${JSON.stringify(response.body)}`)
           logger.error(`Error adding to error DE request body: ${JSON.stringify(body)}`)
           throw `Error Updating Status to DE: ${JSON.stringify(response.body)}`
         }
       });
-    } else {
+    } else {// envia dados para a DE da journey entry
       // atualiza dados na DE pelo ID
       await SFClient.saveDataByID(dataExtensionID, [
         {
@@ -139,7 +140,7 @@ exports.execute = async (req, res) => {
           },
         },
       ]).then(response => {
-        if (response.res.statusCode >= 400) {
+        if (response.res.statusCode >= 400) { // erro no envio dos dados para DE
           throw `Error Updating Status to entry DE: ${JSON.stringify(response.body)}`
         }
       });
@@ -147,26 +148,47 @@ exports.execute = async (req, res) => {
         status: 'ok',
       });
     }
-  } catch (error) {
+  } catch (error) { // Em caso de erro, atualiza DEs com erro
     // logger.error(error);
     console.log('Error: ', error);
 
-    // atualiza dados na DE
-    await SFClient.saveDataByID(dataExtensionID, [
-      {
-        keys: DEkeys,
-        values: {
-          [confirmacaoText]: StatusAgendamento,
-          [confirmacaoBoolean]: StatusAgendamento == 'CONFIRMADO' ? true : false,
-          [status]: 'ERRO'
+    // Atualiza dados na DE configurada
+    if (DEExternalKey != '') {
+      let body = [
+        {
+          keys: DEkeys,
+          values: {
+            [confirmacaoText]: StatusAgendamento,
+            [confirmacaoBoolean]: true,
+            [status]: 'SUCESSO',
+            [saveDate]: now.format('YYYY-MM-DD HH:mm:ss')
+          },
         },
-      },
-    ]).then(response => {
-      if (response.res.statusCode >= 400) {
-        // logger.error(`Error Updating Status to entry DE: ${JSON.stringify(response.body)}`);
-        // throw `Error Updating Status to entry DE: ${JSON.stringify(response.body)}`
-      }
-    });
+      ];
+      await SFClient.saveData(DEExternalKey, body).then(response => {
+        if (response.res.statusCode >= 400) { // erro no envio dos dados para DE
+          logger.error(`Error adding to error DE response: ${JSON.stringify(response.body)}`)
+          logger.error(`Error adding to error DE request body: ${JSON.stringify(body)}`)
+          throw `Error Updating Status to DE: ${JSON.stringify(response.body)}`
+        }
+      });
+    } else { // Atualiza dados da DE do journey entry
+      // atualiza dados na DE com erro
+      await SFClient.saveDataByID(dataExtensionID, [
+        {
+          keys: DEkeys,
+          values: {
+            [confirmacaoText]: StatusAgendamento,
+            [confirmacaoBoolean]: StatusAgendamento == 'CONFIRMADO' ? true : false,
+            [status]: 'ERRO'
+          },
+        },
+      ]).then(response => {
+        if (response.res.statusCode >= 400) { // erro no envio dos dados para DE
+          // logger.error(`Error Updating Status to entry DE: ${JSON.stringify(response.body)}`);
+        }
+      });
+    }
 
 
     const id = Uuidv1();
@@ -183,7 +205,7 @@ exports.execute = async (req, res) => {
       },
     ]
     await SFClient.saveData(process.env.SFMC_ERROR_DE_EXTERNAL_KEY, errorPostBody).then(response => {
-      if (response.res.statusCode >= 400) {
+      if (response.res.statusCode >= 400) { // Erro ao adicionar dados na DE de erros
         logger.error(`Error adding to error DE request body: ${JSON.stringify(errorPostBody)}`)
         logger.error(`Error adding to error DE response: ${JSON.stringify(response.body)}`)
       }
