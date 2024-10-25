@@ -121,7 +121,7 @@ exports.execute = async (req, res) => {
         },
       ];
       await SFClient.saveData(DEExternalKey, body).then(response => {
-        console.log("Insert in DE");
+        console.log("Insert in aux DE");
         console.log("response status code", response.res.statusCode);
         console.log(`response status code ${JSON.stringify(response.body)}`);
         if (response.res.statusCode >= 400) { // erro no envio dos dados para DE
@@ -143,6 +143,9 @@ exports.execute = async (req, res) => {
           },
         },
       ]).then(response => {
+        console.log("Insert in Journey Entry DE");
+        console.log("response status code", response.res.statusCode);
+        console.log(`response status code ${JSON.stringify(response.body)}`);
         if (response.res.statusCode >= 400) { // erro no envio dos dados para DE
           throw `Error Updating Status to entry DE: ${JSON.stringify(response.body)}`
         }
@@ -169,6 +172,9 @@ exports.execute = async (req, res) => {
         },
       ];
       await SFClient.saveData(DEExternalKey, body).then(response => {
+        console.log("Insert ERROR in aux DE");
+        console.log("response status code", response.res.statusCode);
+        console.log(`response status code ${JSON.stringify(response.body)}`);
         if (response.res.statusCode >= 400) { // erro no envio dos dados para DE
           logger.error(`Error adding to error DE response: ${JSON.stringify(response.body)}`)
           logger.error(`Error adding to error DE request body: ${JSON.stringify(body)}`)
@@ -187,6 +193,9 @@ exports.execute = async (req, res) => {
           },
         },
       ]).then(response => {
+        console.log("Insert ERROR in Journey Entry DE");
+        console.log("response status code", response.res.statusCode);
+        console.log(`response status code ${JSON.stringify(response.body)}`);
         if (response.res.statusCode >= 400) { // erro no envio dos dados para DE
           // logger.error(`Error Updating Status to entry DE: ${JSON.stringify(response.body)}`);
         }
