@@ -37,7 +37,9 @@ exports.execute = async (req, res) => {
     status,
     saveDate,
     dataExtensionKeyFields,
-    dataExtensionKeyFieldsValues } = data.inArguments[0];
+    dataExtensionKeyFieldsValues,
+    DEExternalKey
+   } = data.inArguments[0];
 
   let sfmcToken;
 
@@ -48,6 +50,7 @@ exports.execute = async (req, res) => {
     DEkeys[arrDataExtensionKeyFields[i]] = arrDataExtensionKeyFieldsValues[i]
   }
   console.log('DEkeys', DEkeys);
+  console.log('DEExternalKey', DEExternalKey);
 
   const timeZone = 'America/Sao_Paulo'; // Specify the desired time zone
   const now = moment().tz(timeZone);
