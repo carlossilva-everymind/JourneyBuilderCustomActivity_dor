@@ -9,7 +9,7 @@ const fs = require('fs');
 exports.config = (req, res) => {
   // const domain = process.env.DOMAIN + '/custom-activity';
   // const domain = process.env.DOMAIN;
-  const domain = 'test-jb-custom-activity-dor-1a2631a1fafc.herokuapp.com/';
+  const domain = 'test-jb-custom-activity-dor-1a2631a1fafc.herokuapp.com';
   
   // const domain = 'salesforce-custom-activity.dev-k8s.rededorlabs.com';
 
