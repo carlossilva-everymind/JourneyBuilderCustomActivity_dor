@@ -121,7 +121,9 @@ exports.execute = async (req, res) => {
         },
       ];
       await SFClient.saveData(DEExternalKey, body).then(response => {
-        console.log("Insert in ")
+        console.log("Insert in DE");
+        console.log("response status code", response.res.statusCode);
+        console.log(`response status code ${JSON.stringify(response.body)}`);
         if (response.res.statusCode >= 400) { // erro no envio dos dados para DE
           logger.error(`Error adding to error DE response: ${JSON.stringify(response.body)}`)
           logger.error(`Error adding to error DE request body: ${JSON.stringify(body)}`)
