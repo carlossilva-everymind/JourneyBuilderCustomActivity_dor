@@ -217,6 +217,7 @@ exports.unpublish = (req, res) => {
 exports.validate = async (req, res) => {
   // logger = new InfoLogger('activity.js');
   // logger.log.info(`Endpoint teste`);
+  console.log("teste validate");
   res.status(200).send({
     success: true,
   });
