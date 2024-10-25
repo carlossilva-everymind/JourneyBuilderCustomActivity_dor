@@ -7,7 +7,8 @@ const fs = require('fs');
  * @param res
  */
 exports.config = (req, res) => {
-  const domain = process.env.DOMAIN + '/custom-activity';
+  // const domain = process.env.DOMAIN + '/custom-activity';
+  const domain = process.env.DOMAIN;
   
   // const domain = 'salesforce-custom-activity.dev-k8s.rededorlabs.com';
 
