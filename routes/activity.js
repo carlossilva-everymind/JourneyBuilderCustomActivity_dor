@@ -40,7 +40,7 @@ exports.execute = async (req, res) => {
     dataExtensionKeyFields,
     dataExtensionKeyFieldsValues,
     DEExternalKey
-   } = data.inArguments[0];
+  } = data.inArguments[0];
 
   let sfmcToken;
 
@@ -69,63 +69,83 @@ exports.execute = async (req, res) => {
       "client_secret": process.env.MOTION_CLIENT_SECRET,
       "grant_type": "CLIENT_CREDENTIALS"
     }
-    let authResponse = await axios.post(process.env.MOTION_TOKEN_URL, null, {
-      headers
-    })
-      .then(response => {
-        authToken = response.data.access_token;
-        return response.data;
-      }).catch(error => {
-        console.error(error);
-      });
+    // let authResponse = await axios.post(process.env.MOTION_TOKEN_URL, null, {
+    //   headers
+    // })
+    //   .then(response => {
+    //     authToken = response.data.access_token;
+    //     return response.data;
+    //   }).catch(error => {
+    //     console.error(error);
+    //   });
 
     // chamada para motion confirmação
     let postBody = {
       status: StatusAgendamento
     }
-    let responseMotion = await axios.put(process.env.MOTION_AGENDAMENTO_URL + idAgendamento,
-      postBody,
-      {
-        headers: { Authorization: `Bearer ${authToken}` }
-      }
-    )
-      .then(response => {
-        console.log('Response:', response.data);
-      })
-      .catch(error => {
-        if (error.response) {
-          // The request was made and the server responded with a status code
-          // that falls out of the range of 2xx
-          let { data, status, headers } = error.response;
-          throw `Error at motion call: Response: ${JSON.stringify(data)} - Response Status ${status}`
-        } else if (error.request) {
-          // The request was made but no response was received
-          throw `Error at motion call: Request: ${JSON.stringify(error.request)}`
-        } else {
-          // Something happened in setting up the request that triggered an Error
-          throw `Error at motion call: ${JSON.stringify(error.message)}`
+    // let responseMotion = await axios.put(process.env.MOTION_AGENDAMENTO_URL + idAgendamento,
+    //   postBody,
+    //   {
+    //     headers: { Authorization: `Bearer ${authToken}` }
+    //   }
+    // )
+    //   .then(response => {
+    //     console.log('Response:', response.data);
+    //   })
+    //   .catch(error => {
+    //     if (error.response) {
+    //       // The request was made and the server responded with a status code
+    //       // that falls out of the range of 2xx
+    //       let { data, status, headers } = error.response;
+    //       throw `Error at motion call: Response: ${JSON.stringify(data)} - Response Status ${status}`
+    //     } else if (error.request) {
+    //       // The request was made but no response was received
+    //       throw `Error at motion call: Request: ${JSON.stringify(error.request)}`
+    //     } else {
+    //       // Something happened in setting up the request that triggered an Error
+    //       throw `Error at motion call: ${JSON.stringify(error.message)}`
+    //     }
+    //   });
+
+    if (DEExternalKey != '') {
+      await SFClient.saveData(DEExternalKey, [
+        {
+          keys: DEkeys,
+          values: {
+            [confirmacaoText]: StatusAgendamento,
+            [confirmacaoBoolean]: true,
+            [status]: 'SUCESSO',
+            [saveDate]: now.format('YYYY-MM-DD HH:mm:ss')
+          },
+        },
+      ]).then(response => {
+        if (response.res.statusCode >= 400) {
+          logger.error(`Error adding to error DE request body: ${JSON.stringify(errorPostBody)}`)
+          logger.error(`Error adding to error DE response: ${JSON.stringify(response.body)}`)
+          throw `Error Updating Status to DE: ${JSON.stringify(response.body)}`
         }
       });
-
-    // atualiza dados na DE
-    await SFClient.saveDataByID(dataExtensionID, [
-      {
-        keys: DEkeys,
-        values: {
-          [confirmacaoText]: StatusAgendamento,
-          [confirmacaoBoolean]: true,
-          [status]: 'SUCESSO',
-          [saveDate]: now.format('YYYY-MM-DD HH:mm:ss')
+    } else {
+      // atualiza dados na DE pelo ID
+      await SFClient.saveDataByID(dataExtensionID, [
+        {
+          keys: DEkeys,
+          values: {
+            [confirmacaoText]: StatusAgendamento,
+            [confirmacaoBoolean]: true,
+            [status]: 'SUCESSO',
+            [saveDate]: now.format('YYYY-MM-DD HH:mm:ss')
+          },
         },
-      },
-    ]).then(response => {
-      if (response.res.statusCode >= 400) {
-        throw `Error Updating Status to entry DE: ${JSON.stringify(response.body)}`
-      }
-    });
-    res.status(200).send({
-      status: 'ok',
-    });
+      ]).then(response => {
+        if (response.res.statusCode >= 400) {
+          throw `Error Updating Status to entry DE: ${JSON.stringify(response.body)}`
+        }
+      });
+      res.status(200).send({
+        status: 'ok',
+      });
+    }
   } catch (error) {
     // logger.error(error);
     console.log('Error: ', error);
