@@ -122,7 +122,7 @@ exports.execute = async (req, res) => {
       await SFClient.saveData(DEExternalKey, body).then(response => {
         if (response.res.statusCode >= 400) {
           logger.error(`Error adding to error DE response: ${JSON.stringify(response.body)}`)
-          logger.error(`Error adding to error DE request body: ${JSON.stringify(errorPostBody)}`)
+          logger.error(`Error adding to error DE request body: ${JSON.stringify(body)}`)
           throw `Error Updating Status to DE: ${JSON.stringify(response.body)}`
         }
       });
