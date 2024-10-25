@@ -108,7 +108,7 @@ exports.execute = async (req, res) => {
     //   });
 
     if (DEExternalKey != '') {
-      await SFClient.saveData(DEExternalKey, [
+      let body = [
         {
           keys: DEkeys,
           values: {
@@ -118,10 +118,11 @@ exports.execute = async (req, res) => {
             [saveDate]: now.format('YYYY-MM-DD HH:mm:ss')
           },
         },
-      ]).then(response => {
+      ];
+      await SFClient.saveData(DEExternalKey, body).then(response => {
         if (response.res.statusCode >= 400) {
-          logger.error(`Error adding to error DE request body: ${JSON.stringify(errorPostBody)}`)
           logger.error(`Error adding to error DE response: ${JSON.stringify(response.body)}`)
+          logger.error(`Error adding to error DE request body: ${JSON.stringify(errorPostBody)}`)
           throw `Error Updating Status to DE: ${JSON.stringify(response.body)}`
         }
       });
