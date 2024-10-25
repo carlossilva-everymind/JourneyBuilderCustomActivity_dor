@@ -1,7 +1,7 @@
 const { v1: Uuidv1 } = require('uuid');
 const JWT = require('../utils/jwtDecoder');
 const SFClient = require('../utils/sfmc-client');
-// const logger = require('../utils/logger');
+const logger = require('../utils/logger');
 const axios = require('axios');
 const moment = require('moment-timezone');
 const InfoLogger = require("../utils/infoLogger");
@@ -19,8 +19,8 @@ const InfoLogger = require("../utils/infoLogger");
  */
 exports.execute = async (req, res) => {
   // decode data
-  logger = new InfoLogger('activity.js');
-  logger.log.info(`Request body`, req.body);
+  // logger = new InfoLogger('activity.js');
+  // logger.log.info(`Request body`, req.body);
   const data = JWT(req.body);
   // console.log('Execute - Dados decodificados: ', data)
   // logger.info(data);
@@ -51,6 +51,7 @@ exports.execute = async (req, res) => {
   }
   console.log('DEkeys', DEkeys);
   console.log('DEExternalKey', DEExternalKey);
+  logger.error(`Testando o logger`);
 
   const timeZone = 'America/Sao_Paulo'; // Specify the desired time zone
   const now = moment().tz(timeZone);
