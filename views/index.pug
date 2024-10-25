@@ -17,16 +17,16 @@ block content
     .slds-card__body.slds-card__body_inner
       form.js-settings-form
         .slds-form-element
-        label.slds-form-element__label(for="DEExternalKey") Chave Externa da Data Extension
-          .slds-form-element__control
-            .slds-select_container
-              select#DEExternalKey.slds-select.js-activity-setting(name='DEExternalKey')
-        label.slds-form-element__label(for="StatusAgendamento") Status Agendamento
-          .slds-form-element__control
-            .slds-select_container
-              select#StatusAgendamento.slds-select.js-activity-setting(name='StatusAgendamento')
-                each dropdownOption in dropdownOptions
-                  option(value=dropdownOption.value)= dropdownOption.name
+          label.slds-form-element__label(for="DEExternalKey") Chave Externa da Data Extension
+            .slds-form-element__control
+              .slds-select_container
+                input#DEExternalKey.slds-select.js-activity-setting(type='text' name='DEExternalKey')
+          label.slds-form-element__label(for="StatusAgendamento") Status Agendamento
+            .slds-form-element__control
+              .slds-select_container
+                select#StatusAgendamento.slds-select.js-activity-setting(name='StatusAgendamento')
+                  each dropdownOption in dropdownOptions
+                    option(value=dropdownOption.value)= dropdownOption.name
           label.slds-form-element__label(for="idAgendamento") Campo com Id do Agendamento
           .slds-form-element__control
             .slds-select_container
