@@ -21,7 +21,7 @@ exports.execute = async (req, res) => {
   // decode data
   // logger = new InfoLogger('activity.js');
   // logger.log.info(`Request body`, req.body);
-  console.log(req.body);
+  console.log("Iniciando Execute");
   const data = JWT(req.body);
   console.log('Execute - Dados decodificados: ', data)
   // logger.info(data);
