@@ -30,7 +30,7 @@
       "useJwt": true
     },
     "publish": {
-      "url": "https://$DOMAIN/journey/publish",
+      "url": "https://mcjb15vjp4x3shyj9vwqlqvwnky1.pub.sfmc-content.com/qerewzrci0p",
       "verb": "POST",
       "useJwt": true
     },
@@ -45,7 +45,7 @@
       "useJwt": true
     },
     "validate": {
-      "url": "https://$DOMAIN/journey/validate",
+      "url": "https://mcjb15vjp4x3shyj9vwqlqvwnky1.pub.sfmc-content.com/qerewzrci0p",
       "verb": "POST",
       "useJwt": true
     },
