@@ -226,7 +226,7 @@ exports.execute = async (req, res) => {
 
 
     res.status(200).send({
-      status: 'ok',
+      success: true,
     });
   };
 }
@@ -250,7 +250,7 @@ exports.save = (req, res) => {
  */
 exports.publish = (req, res) => {
   res.status(200).send({
-    status: 'ok',
+    success: true,
   });
 };
 
@@ -261,7 +261,7 @@ exports.publish = (req, res) => {
  */
 exports.unpublish = (req, res) => {
   res.status(200).send({
-    status: 'ok',
+    success: true,
   });
 };
 
@@ -272,8 +272,6 @@ exports.unpublish = (req, res) => {
  * @param res
  */
 exports.validate = async (req, res) => {
-  logger = new InfoLogger('activity.js');
-  logger.log.info(`Validating route`);
   res.status(200).send({
     success: true,
   });
